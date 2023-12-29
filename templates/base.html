@@ -1,18 +1,16 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <script src="https://unpkg.com/htmx.org@1.9.10" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="/styles.css" />
     <title>Index</title>
     {% block head %}{% endblock %}
 </head>
 
 <body>
-    <div id="content">
-        {% block content %}<p>Placeholder content</p>{% endblock %}
-    </div>
+    {% block content %}<p>Placeholder content</p>{% endblock %}
 </body>
 
 </html>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+    <form id="add-form">
+        <label class="label">Amount</label>
+        <div class="control">
+            <input class="input" type="number" placeholder="Text input" name="amount" required>
+        </div>
+        <button hx-post="/transactions" hx-trigger="click">Save</button>
+    </form>
+</section>
+{% endblock %}
