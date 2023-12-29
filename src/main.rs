@@ -7,6 +7,7 @@ use sheets_service::create_hub;
 use shuttle_secrets::SecretStore;
 
 mod api;
+mod errors;
 mod sheets_service;
 
 #[shuttle_runtime::main]
@@ -15,7 +16,7 @@ async fn main(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
         .route("/", get(transaction_form))
         .route("/transactions", post(create_transaction));
 
-    create_hub(secret_store).await;
+    create_hub().await;
 
     Ok(router.into())
 }

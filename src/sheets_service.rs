@@ -1,10 +1,22 @@
-use google_sheets4::oauth2::ApplicationSecret;
-use shuttle_secrets::SecretStore;
-use tracing::info;
+use google_sheets4::oauth2::ServiceAccountAuthenticator;
+use tracing::{error, info};
 
-pub async fn create_hub(secret_store: SecretStore) {
+use crate::errors::SheetsError;
+
+pub async fn create_hub() -> Result<(), SheetsError> {
     info!("Creating hub");
 
-    // let secret = ApplicationSecret {};
-    // info!("{:?}", secret);
+    let secret = google_sheets4::oauth2::read_service_account_key("permissions.json")
+        .await
+        .map_err(|x| {
+            error!("{x}");
+            SheetsError::CredentialError
+        })?;
+
+    let auth = ServiceAccountAuthenticator::builder(secret)
+        .build()
+        .await
+        .unwrap();
+
+    Ok(())
 }
