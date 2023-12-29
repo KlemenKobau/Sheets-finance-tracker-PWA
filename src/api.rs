@@ -1,7 +1,10 @@
 use askama::Template;
 use askama_axum::IntoResponse;
-use axum::Form;
+use axum::extract::State;
 use serde::{Deserialize, Serialize};
+use validator::Validate;
+
+use crate::{errors::AppError, forms::ValidatedForm, sheets_service::add_transaction_to_sheet};
 
 #[derive(Template)]
 #[template(path = "status.html")]
@@ -19,9 +22,17 @@ pub async fn transaction_form() -> impl IntoResponse {
     TransactionTemplate
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Validate)]
 pub struct TransactionRequest {
+    #[validate(length(min = 1, message = "Can not be empty"))]
     amount: String,
 }
 
-pub async fn create_transaction(Form(form): Form<TransactionRequest>) {}
+pub async fn create_transaction(
+    State(state): State<crate::AppState>,
+    ValidatedForm(form): ValidatedForm<TransactionRequest>,
+) -> Result<(), AppError> {
+    add_transaction_to_sheet(state, form).await?;
+
+    Ok(())
+}
