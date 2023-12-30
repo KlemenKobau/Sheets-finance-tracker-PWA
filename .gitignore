@@ -12,6 +12,11 @@
 !*.html
 !*.css
 
+# config
+!.gitignore
+!LICENSE
+!README.md
+
 # Ignore always
 target/
 Secrets*.toml
