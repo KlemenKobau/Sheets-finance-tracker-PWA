@@ -1,18 +1,14 @@
 use askama::Template;
 use askama_axum::IntoResponse;
 use axum::extract::State;
+use fraction::Decimal;
 use serde::{Deserialize, Serialize};
-use validator::Validate;
+use validator::{Validate, ValidationError};
 
-use crate::{errors::AppError, forms::ValidatedForm, sheets_service::add_transaction_to_sheet};
-
-#[derive(Template)]
-#[template(path = "status.html")]
-pub struct StatusTemplate;
-
-pub async fn status() -> impl IntoResponse {
-    StatusTemplate
-}
+use crate::{
+    errors::AppError, forms::ValidatedForm, models::decimal::SerializableDecimal,
+    sheets_service::add_transaction_to_sheet,
+};
 
 #[derive(Template)]
 #[template(path = "transaction-form.html")]
@@ -24,8 +20,19 @@ pub async fn transaction_form() -> impl IntoResponse {
 
 #[derive(Serialize, Deserialize, Validate)]
 pub struct TransactionRequest {
-    #[validate(length(min = 1, message = "Can not be empty"))]
-    amount: String,
+    #[validate(custom = "validate_amount")]
+    amount: SerializableDecimal,
+}
+
+fn validate_amount(
+    SerializableDecimal(amount): &SerializableDecimal,
+) -> Result<(), ValidationError> {
+    if !amount.ge(&Decimal::from(0)) {
+        return Err(ValidationError::new(
+            "Amount should be more than 0 and should not be negative.",
+        ));
+    }
+    Ok(())
 }
 
 pub async fn create_transaction(

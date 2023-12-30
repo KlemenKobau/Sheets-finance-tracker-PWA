@@ -10,6 +10,9 @@ use shuttle_secrets::SecretStore;
 mod api;
 mod errors;
 mod forms;
+mod models {
+    pub mod decimal;
+}
 mod sheets_service;
 
 #[derive(Clone)]

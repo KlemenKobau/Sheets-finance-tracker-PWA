@@ -4,6 +4,7 @@ use axum::{
     Form,
 };
 use serde::de::DeserializeOwned;
+use tracing::warn;
 use validator::Validate;
 
 use crate::errors::AppError;
@@ -21,8 +22,14 @@ where
     type Rejection = AppError;
 
     async fn from_request(req: Request, state: &S) -> Result<Self, Self::Rejection> {
-        let Form(value) = Form::<T>::from_request(req, state).await?;
-        value.validate()?;
+        let Form(value) = Form::<T>::from_request(req, state).await.map_err(|x| {
+            warn!("Form rejection: {x}");
+            x
+        })?;
+        value.validate().map_err(|x| {
+            warn!("Form validation failure: {x}");
+            x
+        })?;
         Ok(ValidatedForm(value))
     }
 }
