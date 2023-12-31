@@ -1146,6 +1146,7 @@ dependencies = [
  "askama",
  "askama_axum",
  "axum 0.7.2",
+ "base64 0.21.5",
  "fraction",
  "google-sheets4",
  "serde",
