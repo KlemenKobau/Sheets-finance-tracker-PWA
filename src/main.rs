@@ -38,7 +38,7 @@ async fn password_check_middleware(
 ) -> Response<Body> {
     let auth_header = request.headers().get(AUTHORIZATION_HEADER);
 
-    // getting credentials from Beared <base64 creds>
+    // getting credentials from Basic <base64 creds>
     let creds_string = auth_header
         .and_then(|x| x.to_str().ok())
         .and_then(|x| x.split_once(' '))

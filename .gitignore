@@ -17,6 +17,9 @@
 !LICENSE
 !README.md
 
+# github
+!.github/workflows/*.yml
+
 # Ignore always
 target/
 Secrets*.toml
