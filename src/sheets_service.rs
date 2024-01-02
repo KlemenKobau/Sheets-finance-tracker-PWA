@@ -44,7 +44,17 @@ pub async fn add_transaction_to_sheet(
     let hub = state.sheet_hub;
     let sheet_id = state.sheet_id;
 
-    let values = vec![vec![json!("a"); 3]];
+    let TransactionRequest {
+        amount,
+        transaction_type,
+        comment,
+    } = form;
+
+    let values = vec![vec![
+        json!(amount),
+        json!(transaction_type),
+        json!(comment.unwrap_or("".to_owned())),
+    ]];
 
     let req = ValueRange {
         values: Some(values),

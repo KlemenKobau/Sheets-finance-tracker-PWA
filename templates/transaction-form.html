@@ -5,7 +5,15 @@
     <form id="add-form">
         <label class="label">Amount</label>
         <div class="control">
-            <input class="input" type="number" placeholder="Text input" name="amount" required>
+            <input class="input" type="number" name="amount" required>
+        </div>
+        <label class="label">Type</label>
+        <div class="control">
+            <input class="input" type="text" name="transaction_type" required>
+        </div>
+        <label class="label">Comment</label>
+        <div class="control">
+            <input class="input" type="text" name="comment">
         </div>
         <button hx-post="/transactions" hx-trigger="click">Save</button>
     </form>

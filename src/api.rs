@@ -21,7 +21,10 @@ pub async fn transaction_form() -> impl IntoResponse {
 #[derive(Serialize, Deserialize, Validate)]
 pub struct TransactionRequest {
     #[validate(custom = "validate_amount")]
-    amount: SerializableDecimal,
+    pub amount: SerializableDecimal,
+    #[validate(length(min = 1))]
+    pub transaction_type: String,
+    pub comment: Option<String>,
 }
 
 fn validate_amount(
