@@ -1,1 +1,1 @@
-assets = ["templates/*", "static/*"]
+assets = ["templates/*", "static/*", "permissions.json"]
