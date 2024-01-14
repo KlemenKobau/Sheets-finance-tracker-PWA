@@ -1,0 +1,13 @@
+{
+    "name": "Sheets Finance Tracker application",
+    "short_name": "Finance tracker",
+    "display": "fullscreen",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "/static/images/calculator.svg",
+            "type": "image/svg+xml",
+            "sizes": "512x512"
+        }
+    ]
+}

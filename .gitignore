@@ -11,6 +11,8 @@
 # html
 !*.html
 !*.css
+!manifest.json
+!*.svg
 
 # config
 !.gitignore
@@ -21,5 +23,6 @@
 !.github/workflows/*.yml
 
 # Ignore always
+permissions.json
 target/
 Secrets*.toml

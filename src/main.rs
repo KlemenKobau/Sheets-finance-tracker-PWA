@@ -11,6 +11,7 @@ use axum::{
 use base64::{engine::general_purpose, Engine};
 use sheets_service::{create_hub, SheetsConnector};
 use shuttle_secrets::SecretStore;
+use tower_http::services::ServeDir;
 
 mod api;
 mod errors;
@@ -96,7 +97,8 @@ async fn main(#[shuttle_secrets::Secrets] secret_store: SecretStore) -> shuttle_
             app_state.clone(),
             password_check_middleware,
         ))
-        .with_state(app_state);
+        .with_state(app_state)
+        .nest_service("/static", ServeDir::new("static"));
 
     Ok(router.into())
 }
